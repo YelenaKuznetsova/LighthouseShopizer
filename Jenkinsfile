@@ -8,7 +8,7 @@ pipeline {
        }
         stage("Publish Report") {
               steps {
-                 archiveArtifacts artifacts: 'lighthouse.report.html'
+                 archiveArtifacts artifacts: 'shopizer.report.html'
               }
         }
     }
