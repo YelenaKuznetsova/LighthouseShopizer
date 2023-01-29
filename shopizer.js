@@ -71,6 +71,12 @@ async function captureReport() { //we will call the function at the end of the s
     let Open_Cart = 'http://localhost:80/cart';
     let Proceed_to_Checkout = 'http://localhost:80/checkout';
 
+    async function sleep(ms) {
+      return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+      });
+    }
+
     //Cold Navigations //opening links with "navigate"
     await flow.navigate(HomePage, { //in line 46 - we've defined that flow = lighthouse
       stepName: 'Home Page'
@@ -94,31 +100,28 @@ async function captureReport() { //we will call the function at the end of the s
       await page.click('.pro-details-cart.btn-hover');
       //await waitTillHTMLRendered(page);
       await page.waitForSelector('button.icon-cart i[class="pe-7s-shopbag"]');
-      await flow.endTimespan();
+    await flow.endTimespan();
     console.log('Add table to Cart');
 
     await flow.startTimespan({stepName:'Open Cart'});
       await page.waitForSelector('button.icon-cart i[class="pe-7s-shopbag"]');
+      await sleep(100);
       await page.click('button.icon-cart i[class="pe-7s-shopbag"]');
       //await waitTillHTMLRendered(page);
       await page.waitForSelector('div.shopping-cart-content.active');
       await page.waitForSelector('a.default-btn[href="/cart"]');
+      await sleep(100);
       await page.click('a.default-btn[href="/cart"]');
       await waitTillHTMLRendered(page);
     await flow.endTimespan();
     console.log('Open Cart');
 
-    // await flow.navigate(Open_Cart, {
-    //     stepName: 'Open Cart'
-    // });
-    // //await waitTillHTMLRendered(page);
-    // console.log('Open Cart');
-
     await flow.startTimespan({stepName:'Proceed to Checkout'});
-      await page.$$('a[href="/checkout"]');
+      await page.waitForSelector('a[href="/checkout"]',{visible: true});
+      await sleep(100);
       await page.click('a[href="/checkout"]');
       await waitTillHTMLRendered(page);
-      await page.waitForSelector('.billing-info-wrap');
+      await page.waitForSelector('.billing-info-wrap',{visible: true});
     await flow.endTimespan();
     console.log('Proceed_to_Checkout');
 
