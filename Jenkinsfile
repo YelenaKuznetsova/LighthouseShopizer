@@ -8,7 +8,7 @@ pipeline {
        }
         stage("Publish Report") {
               steps {
-                 sh 'archiveArtifacts artifacts: 'lighhouse.report.html'
+                 sh archiveArtifacts artifacts: 'lighthouse.report.html'
               }
         }
     }
